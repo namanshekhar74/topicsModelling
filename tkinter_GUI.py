@@ -1,15 +1,13 @@
 import string
 import tkinter as tk
 from tkinter import filedialog
-import os
-
-from nltk.corpus import stopwords
-
-import LSA
-
 import tkinter.font as tkFont
-
+import os
+from nltk.corpus import stopwords
+import LSA
 import LDA4
+import PLSA
+import time
 
 
 # Create a tkinter GUI window and a Text widget to display the file contents
@@ -17,7 +15,7 @@ root = tk.Tk()
 root.geometry("900x820")
 fontObj = tkFont.Font(size=14)
 # Create a selector with various dummy options and pack it to the window
-dummy_options = ["LDA", "LSA", "Option 3"]
+dummy_options = ["LDA", "LSA", "PLSA"]
 method_selector = tk.StringVar(root)
 method_selector.set(dummy_options[0])  # set the default option
 
@@ -94,6 +92,7 @@ def select_folder():
 
 def execute():
     if method_selector.get() == "LDA":
+        t1 = time.time()
         n = int(no_of_topics.get())
         string_to_be_printed = LDA4.LDA(tokenized_docs, n)
         text_widget.delete("1.0", "end")
@@ -102,9 +101,12 @@ def execute():
         # print(string_to_be_printed)
         text_widget.insert(tk.END, string_to_be_printed)
         text_widget.config()
+        t2 = time.time()
+        print(t2-t1)
         # tokenized_docs.clear()
 
     if method_selector.get() == "LSA":
+        t1 = time.time()
         n = int(no_of_topics.get())
         string_to_be_printed = LSA.LSA(tokenized_docs, n)
         text_widget.delete("1.0", "end")
@@ -113,8 +115,23 @@ def execute():
         # print(string_to_be_printed)
         text_widget.insert(tk.END, string_to_be_printed)
         text_widget.config()
+        t2 = time.time()
+        print(t2 - t1)
         # tokenized_docs.clear()
 
+    if method_selector.get() == "PLSA":
+        t1 = time.time()
+        n = int(no_of_topics.get())
+        string_to_be_printed = PLSA.PLSA(tokenized_docs, n)
+        text_widget.delete("1.0", "end")
+        text_widget.config()
+        # print(123)
+        # print(string_to_be_printed)
+        text_widget.insert(tk.END, string_to_be_printed)
+        text_widget.config()
+        t2 = time.time()
+        print(t2 - t1)
+        # tokenized_docs.clear()
 
 
 

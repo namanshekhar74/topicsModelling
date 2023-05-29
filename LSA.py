@@ -20,10 +20,20 @@ def LSA(tokenized_docs ,n):
                 dc_matrix[j][i] = freq
         return dc_matrix
 
+    def calculate_idf():
+        idf = np.zeros(len(vocab))
+        total_docs = len(tokenized_docs)
+        for i, word in enumerate(vocab):
+            doc_count = sum(1 for doc in tokenized_docs if word in doc)
+            idf[i] = np.log(total_docs / (1 + doc_count))
+        return idf
+
     final_matrix = array(document_term_matrix())
+    idf = calculate_idf()
+    tfidf_matrix = final_matrix * idf
     # print("final_matrix: ", final_matrix)
 
-    U, s, Vt = svd(final_matrix, full_matrices=False)
+    U, s, Vt = svd(tfidf_matrix, full_matrices=False)
     k = n  # number of topics
     U_k = U[:, :k]
     s_k = np.diag(s[:k])
