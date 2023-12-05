@@ -7,6 +7,8 @@ from nltk.corpus import stopwords
 import LSA
 import LDA4
 import PLSA
+import LSA_LDA_hybrid
+import PLSA_hybrid
 import time
 
 
@@ -15,7 +17,7 @@ root = tk.Tk()
 root.geometry("900x820")
 fontObj = tkFont.Font(size=14)
 # Create a selector with various dummy options and pack it to the window
-dummy_options = ["LDA", "LSA", "PLSA"]
+dummy_options = ["LDA", "LSA", "PLSA", "LSA_LDA_hybrid", "PLSA_hybrid"]
 method_selector = tk.StringVar(root)
 method_selector.set(dummy_options[0])  # set the default option
 
@@ -108,6 +110,7 @@ def execute():
     if method_selector.get() == "LSA":
         t1 = time.time()
         n = int(no_of_topics.get())
+        # print("djfnnnnnnnnnnnnnnnnnnnnnnnnnnnnv : ", tokenized_docs)
         string_to_be_printed = LSA.LSA(tokenized_docs, n)
         text_widget.delete("1.0", "end")
         text_widget.config()
@@ -133,6 +136,30 @@ def execute():
         print(t2 - t1)
         # tokenized_docs.clear()
 
+    if method_selector.get() == "LSA_LDA_hybrid":
+        t1 = time.time()
+        n = int(no_of_topics.get())
+        string_to_be_printed = LSA_LDA_hybrid.LSA_LDA(tokenized_docs, n)
+        text_widget.delete("1.0", "end")
+        text_widget.config()
+
+        text_widget.insert(tk.END, string_to_be_printed)
+        text_widget.config()
+        t2 = time.time()
+        print(t2-t1)
+        # tokenized_docs.clear()
+    if method_selector.get() == "PLSA_hybrid":
+        t1 = time.time()
+        n = int(no_of_topics.get())
+        string_to_be_printed = PLSA_hybrid.PLSA_hybrid(tokenized_docs, n)
+        text_widget.delete("1.0", "end")
+        text_widget.config()
+
+        text_widget.insert(tk.END, string_to_be_printed)
+        text_widget.config()
+        t2 = time.time()
+        print(t2-t1)
+        # tokenized_docs.clear()
 
 
 
