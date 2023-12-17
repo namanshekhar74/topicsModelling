@@ -10,7 +10,8 @@ import PLSA
 import LSA_LDA_hybrid
 import PLSA_hybrid
 import time
-
+from nltk import pos_tag
+from nltk.tokenize import word_tokenize
 
 # Create a tkinter GUI window and a Text widget to display the file contents
 root = tk.Tk()
@@ -74,6 +75,13 @@ def clear():
 
 clear()
 
+def get_nouns(input_words):
+    # tokens = word_tokenize(input_words)
+    pos_tags = pos_tag(input_words)
+    nouns = [word for word, pos in pos_tags if pos.startswith('NN')]
+    print("nouns: ", nouns)
+    print("pos_tags: ", pos_tags)
+    return nouns
 def select_folder():
     folder_path = filedialog.askdirectory()
     file_contents = []
@@ -89,7 +97,8 @@ def select_folder():
                 file_token_lower = list(map(str.lower, file_token))  # converting the document into lowercase
                 file_token_lower_stop_words = [word for word in file_token_lower if
                                                not word in stopwords.words()]
-                tokenized_docs.append(file_token_lower_stop_words)
+                file_token_lower_stop_words_noun = get_nouns(file_token_lower_stop_words)
+                tokenized_docs.append(file_token_lower_stop_words_noun)
 
 
 def execute():
